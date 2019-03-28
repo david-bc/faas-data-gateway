@@ -1,0 +1,31 @@
+{
+  "name": "data-gateway-faas",
+  "version": "1.0.0",
+  "description": "",
+  "main": "function.js",
+  "scripts": {
+    "deploy": "npm run deploy-sources & npm run deploy-targets & npm run deploy-users",
+    "deploy-sources": "gcloud functions deploy data-gateway-sources-poc --trigger-http --entry-point sourcesEntry --runtime nodejs8 --memory 256MB --timeout 10s",
+    "deploy-targets": "gcloud functions deploy data-gateway-targets-poc --trigger-http --entry-point targetsEntry --runtime nodejs8 --memory 256MB --timeout 10s",
+    "deploy-users": "gcloud functions deploy data-gateway-users-poc --trigger-http --entry-point usersEntry --runtime nodejs8 --memory 256MB --timeout 10s",
+    "start": "nodemon --watch src src/server.js",
+    "test": "mocha --recursive"
+  },
+  "keywords": [],
+  "author": "David Esposito <desposi1@gmail.com> (https://github.com/de44)",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "body-parser": "^1.18.3",
+    "dotenv": "^7.0.0",
+    "express": "^4.16.4",
+    "lodash": "^4.17.11",
+    "lowdb": "^1.0.0",
+    "uuid": "^3.3.2"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^6.0.2",
+    "nodemon": "^1.18.10"
+  }
+}
