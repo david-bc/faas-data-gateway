@@ -6,11 +6,10 @@ const Memory = require('lowdb/adapters/Memory');
 const adapter = new Memory();
 const db = low(adapter);
 
-const SOURCES = 'sources';
 const TARGETS = 'targets';
 const USERS = 'users';
 
-db.defaults({ [SOURCES]: [], [TARGETS]: [], [USERS]: [] }).write();
+db.defaults({ [TARGETS]: [], [USERS]: [] }).write();
 
 class LocalCollectionStore {
   constructor(collectionName) {
@@ -73,7 +72,6 @@ class LocalCollectionStore {
 }
 
 module.exports = {
-  sources: new LocalCollectionStore(SOURCES),
   targets: new LocalCollectionStore(TARGETS),
   users: new LocalCollectionStore(USERS),
 };

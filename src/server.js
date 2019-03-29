@@ -11,14 +11,14 @@ dotenv.config();
 
 const PORT = process.env.PORT || 9199;
 
-const sourcesEntry = require('./faas/sourcesEntry.js');
-app.all('/sources**', sourcesEntry);
-
 const targetsEntry = require('./faas/targetsEntry.js');
 app.all('/targets**', targetsEntry);
 
 const usersEntry = require('./faas/usersEntry.js');
 app.all('/users**', usersEntry);
+
+const rpcEndpoint = require('./faas/rpcEndpoint.js');
+app.post('/rpc', rpcEndpoint);
 
 app.listen(PORT, function() {
   console.log(`Listening on port ${PORT}...`);

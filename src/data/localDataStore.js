@@ -6,26 +6,27 @@ const FileSync = require('lowdb/adapters/FileSync');
 const adapter = new FileSync('data/db.json');
 const db = low(adapter);
 
-const SOURCES = 'sources';
 const TARGETS = 'targets';
 const USERS = 'users';
 
-db.defaults({ [SOURCES]: [], [TARGETS]: [], [USERS]: [] }).write();
+db.defaults({ [TARGETS]: [], [USERS]: [] }).write();
 
 class LocalCollectionStore {
   constructor(collectionName) {
     this.collectionName = collectionName;
   }
   list(options = {}) {
-    const { limit = 10, offset = 0, filter } = options;
+    const { limit = 10, offset = 0, filter = () => true } = options;
     return Promise.resolve({
       content: db
         .get(this.collectionName)
+        .filter(filter)
         .drop(offset)
         .take(limit)
         .value(),
       total: db
         .get(this.collectionName)
+        .filter(filter)
         .size()
         .value(),
       limit,
@@ -73,7 +74,6 @@ class LocalCollectionStore {
 }
 
 module.exports = {
-  sources: new LocalCollectionStore(SOURCES),
   targets: new LocalCollectionStore(TARGETS),
   users: new LocalCollectionStore(USERS),
 };

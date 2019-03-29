@@ -1,5 +1,65 @@
 {
-  "sources": [],
-  "targets": [],
+  "targets": [
+    {
+      "tags": [
+        "database.es.cluster.docker-cluster",
+        "env.local",
+        "owner.espo"
+      ],
+      "title": "docker-cluster - Cluster Info",
+      "description": "",
+      "executor": "REST",
+      "kind": "es",
+      "req": {
+        "method": "GET",
+        "url": "http://localhost:9200",
+        "params": {},
+        "headers": {
+          "Accept": "application/json"
+        }
+      },
+      "id": "0cb3fab2-170b-4cb6-98b8-8445ed10cae8"
+    },
+    {
+      "tags": [
+        "database.es.cluster.docker-cluster",
+        "env.local",
+        "owner.espo"
+      ],
+      "title": "docker-cluster - Cluster Stats",
+      "description": "",
+      "executor": "REST",
+      "kind": "es",
+      "req": {
+        "method": "GET",
+        "url": "http://localhost:9200/_stats",
+        "params": {},
+        "headers": {
+          "Accept": "application/json"
+        }
+      },
+      "id": "71e03420-6aa0-4b25-92c2-03dda6f3a1ed"
+    },
+    {
+      "tags": [
+        "database.es.cluster.docker-cluster",
+        "env.local",
+        "owner.espo"
+      ],
+      "title": "docker-cluster - List Indices",
+      "description": "",
+      "executor": "REST",
+      "kind": "es",
+      "req": {
+        "method": "GET",
+        "url": "http://localhost:9200/_cat/indices",
+        "params": {},
+        "headers": {
+          "Accept": "application/json"
+        }
+      },
+      "id": "1ac817cb-02e0-4b9a-9d25-f9502932bc96"
+    }
+  ],
   "users": []
 }

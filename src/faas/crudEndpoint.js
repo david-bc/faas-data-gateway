@@ -16,7 +16,7 @@ module.exports = db => async (req, res) => {
   let status = 200;
   switch (method) {
     case 'GET': {
-      if (_.isNil(subRoute)) {
+      if (_.isNil(subRoute) || subRoute.length === 0) {
         const { limit, offset } = query;
         let filter = query.filter;
         if (_.isString(filter)) {
