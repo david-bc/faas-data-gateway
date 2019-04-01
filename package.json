@@ -4,8 +4,8 @@
   "description": "",
   "main": "function.js",
   "scripts": {
-    "deploy": "npm run deploy-sources & npm run deploy-targets & npm run deploy-users",
-    "deploy-rpc": "gcloud functions deploy data-gateway-rpc-poc --trigger-http --entry-point rpcEndpoint --runtime nodejs8 --memory 512MB --timeout 30s",
+    "deploy": "npm run deploy-rpc & npm run deploy-targets & npm run deploy-users",
+    "deploy-rpc": "gcloud functions deploy data-gateway-rpc-poc --trigger-http --entry-point rpcEndpoint --runtime nodejs8 --memory 512MB --timeout 60s",
     "deploy-targets": "gcloud functions deploy data-gateway-targets-poc --trigger-http --entry-point targetsEntry --runtime nodejs8 --memory 128MB --timeout 10s",
     "deploy-users": "gcloud functions deploy data-gateway-users-poc --trigger-http --entry-point usersEntry --runtime nodejs8 --memory 128MB --timeout 10s",
     "start": "nodemon --watch src src/server.js",
@@ -13,8 +13,9 @@
   },
   "keywords": [],
   "author": "David Esposito <espo@bettercloud.com> (https://github.com/david-bc)",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
+    "@google-cloud/datastore": "^3.1.2",
     "axios": "^0.18.0",
     "body-parser": "^1.18.3",
     "crypto-js": "^3.1.9-1",

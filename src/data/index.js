@@ -8,6 +8,12 @@ switch (env) {
     db = require('./localDataStore');
     break;
   }
+  case 'gcp':
+  case 'production': {
+    console.log(`Using GCP datastore`);
+    db = require('./gcpDatastore');
+    break;
+  }
   case 'mock':
   default: {
     db = require('./memDataStore');
