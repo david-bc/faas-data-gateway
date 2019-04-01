@@ -5,14 +5,14 @@
   "main": "function.js",
   "scripts": {
     "deploy": "npm run deploy-sources & npm run deploy-targets & npm run deploy-users",
-    "deploy-sources": "gcloud functions deploy data-gateway-sources-poc --trigger-http --entry-point sourcesEntry --runtime nodejs8 --memory 256MB --timeout 10s",
-    "deploy-targets": "gcloud functions deploy data-gateway-targets-poc --trigger-http --entry-point targetsEntry --runtime nodejs8 --memory 256MB --timeout 10s",
-    "deploy-users": "gcloud functions deploy data-gateway-users-poc --trigger-http --entry-point usersEntry --runtime nodejs8 --memory 256MB --timeout 10s",
+    "deploy-rpc": "gcloud functions deploy data-gateway-rpc-poc --trigger-http --entry-point rpcEndpoint --runtime nodejs8 --memory 512MB --timeout 30s",
+    "deploy-targets": "gcloud functions deploy data-gateway-targets-poc --trigger-http --entry-point targetsEntry --runtime nodejs8 --memory 128MB --timeout 10s",
+    "deploy-users": "gcloud functions deploy data-gateway-users-poc --trigger-http --entry-point usersEntry --runtime nodejs8 --memory 128MB --timeout 10s",
     "start": "nodemon --watch src src/server.js",
     "test": "mocha --recursive"
   },
   "keywords": [],
-  "author": "David Esposito <desposi1@gmail.com> (https://github.com/de44)",
+  "author": "David Esposito <espo@bettercloud.com> (https://github.com/david-bc)",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.18.0",
