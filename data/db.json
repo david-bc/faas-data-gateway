@@ -18,7 +18,8 @@
           "Accept": "application/json"
         }
       },
-      "id": "0cb3fab2-170b-4cb6-98b8-8445ed10cae8"
+      "inputs": [],
+      "id": "ac2865ad979195557cbb16b68a2f9b56f9111119"
     },
     {
       "tags": [
@@ -38,7 +39,8 @@
           "Accept": "application/json"
         }
       },
-      "id": "71e03420-6aa0-4b25-92c2-03dda6f3a1ed"
+      "inputs": [],
+      "id": "797a8e77709ff87c8e19910bd079aab3fcc76d2a"
     },
     {
       "tags": [
@@ -58,7 +60,299 @@
           "Accept": "application/json"
         }
       },
-      "id": "1ac817cb-02e0-4b9a-9d25-f9502932bc96"
+      "inputs": [],
+      "id": "f1f9551a724319412b185636c4e92692a2889ed7"
+    },
+    {
+      "tags": [
+        "database.es.cluster.docker-cluster",
+        "env.local",
+        "owner.espo"
+      ],
+      "title": "docker-cluster - Create Index",
+      "description": "",
+      "executor": "REST",
+      "kind": "es",
+      "req": {
+        "method": "PUT",
+        "url": "http://localhost:9200/<%= indexName %>",
+        "params": {},
+        "headers": {
+          "Accept": "application/json"
+        }
+      },
+      "inputs": [
+        {
+          "title": "Index Name",
+          "kind": "string",
+          "required": true
+        }
+      ],
+      "id": "d9a922bf1eb2cb0c42506704719671b3473b2e0f"
+    },
+    {
+      "tags": [
+        "database.es.cluster.docker-cluster",
+        "database.es.index.netflix",
+        "env.local",
+        "owner.espo"
+      ],
+      "title": "netflix - docker-cluster - Index Stats",
+      "description": "",
+      "executor": "REST",
+      "kind": "es",
+      "req": {
+        "method": "GET",
+        "url": "http://localhost:9200/netflix/_stats",
+        "params": {},
+        "headers": {
+          "Accept": "application/json"
+        }
+      },
+      "inputs": [],
+      "id": "c0b343dbe1afc236653151cf4123737ce4fdbafe"
+    },
+    {
+      "tags": [
+        "database.es.cluster.docker-cluster",
+        "database.es.index.netflix",
+        "env.local",
+        "owner.espo"
+      ],
+      "title": "netflix - docker-cluster - Index Mapping",
+      "description": "",
+      "executor": "REST",
+      "kind": "es",
+      "req": {
+        "method": "GET",
+        "url": "http://localhost:9200/netflix/_mapping",
+        "params": {},
+        "headers": {
+          "Accept": "application/json"
+        }
+      },
+      "inputs": [],
+      "id": "ab149e5b05950209243db7e365df5b3af3eec490"
+    },
+    {
+      "tags": [
+        "database.es.cluster.docker-cluster",
+        "database.es.index.netflix",
+        "env.local",
+        "owner.espo"
+      ],
+      "title": "netflix - docker-cluster - Update Index Mapping",
+      "description": "",
+      "executor": "REST",
+      "kind": "es",
+      "req": {
+        "method": "PUT",
+        "url": "http://localhost:9200/netflix/_mapping/_doc",
+        "params": {},
+        "headers": {
+          "Accept": "application/json"
+        },
+        "body": "<%= rawMapping %>"
+      },
+      "inputs": [
+        {
+          "title": "Mapping",
+          "kind": "json",
+          "required": true
+        }
+      ],
+      "id": "a56b48deef7c98c4b63e074604c9e2cfc3b8fa7b"
+    },
+    {
+      "tags": [
+        "database.es.data.netflix",
+        "database.es.cluster.docker-cluster",
+        "database.es.index.netflix",
+        "env.local",
+        "owner.espo"
+      ],
+      "title": "netflix - docker-cluster - Get Document by ID",
+      "description": "",
+      "executor": "REST",
+      "kind": "es",
+      "req": {
+        "method": "GET",
+        "url": "http://localhost:9200/netflix/_doc/<%= documentId %>",
+        "params": {},
+        "headers": {
+          "Accept": "application/json"
+        }
+      },
+      "inputs": [
+        {
+          "title": "Document ID",
+          "kind": "string",
+          "required": true
+        }
+      ],
+      "id": "498e6a8f33c0472152b0e1b194fcfd1bc3147766"
+    },
+    {
+      "tags": [
+        "database.es.data.netflix",
+        "database.es.cluster.docker-cluster",
+        "database.es.index.netflix",
+        "env.local",
+        "owner.espo"
+      ],
+      "title": "netflix - docker-cluster - Search Documents",
+      "description": "",
+      "executor": "REST",
+      "kind": "es",
+      "req": {
+        "method": "POST",
+        "url": "http://localhost:9200/netflix/_search",
+        "params": {},
+        "headers": {
+          "Accept": "application/json"
+        },
+        "body": "<%= rawQuery %>"
+      },
+      "inputs": [
+        {
+          "title": "Query",
+          "kind": "json",
+          "required": true
+        }
+      ],
+      "id": "3a42a22514fbbd28ab6b17335c0c8dbd12eba9d4"
+    },
+    {
+      "tags": [
+        "database.es.cluster.docker-cluster",
+        "database.es.index.twitter",
+        "env.local",
+        "owner.espo"
+      ],
+      "title": "twitter - docker-cluster - Index Stats",
+      "description": "",
+      "executor": "REST",
+      "kind": "es",
+      "req": {
+        "method": "GET",
+        "url": "http://localhost:9200/twitter/_stats",
+        "params": {},
+        "headers": {
+          "Accept": "application/json"
+        }
+      },
+      "inputs": [],
+      "id": "51f7f22413c804180b05ab11820e8fd0bf9ddddc"
+    },
+    {
+      "tags": [
+        "database.es.cluster.docker-cluster",
+        "database.es.index.twitter",
+        "env.local",
+        "owner.espo"
+      ],
+      "title": "twitter - docker-cluster - Index Mapping",
+      "description": "",
+      "executor": "REST",
+      "kind": "es",
+      "req": {
+        "method": "GET",
+        "url": "http://localhost:9200/twitter/_mapping",
+        "params": {},
+        "headers": {
+          "Accept": "application/json"
+        }
+      },
+      "inputs": [],
+      "id": "7df7a6fae7853fa2a2dcf9b22557d8fe745a1c58"
+    },
+    {
+      "tags": [
+        "database.es.cluster.docker-cluster",
+        "database.es.index.twitter",
+        "env.local",
+        "owner.espo"
+      ],
+      "title": "twitter - docker-cluster - Update Index Mapping",
+      "description": "",
+      "executor": "REST",
+      "kind": "es",
+      "req": {
+        "method": "PUT",
+        "url": "http://localhost:9200/twitter/_mapping/_doc",
+        "params": {},
+        "headers": {
+          "Accept": "application/json"
+        },
+        "body": "<%= rawMapping %>"
+      },
+      "inputs": [
+        {
+          "title": "Mapping",
+          "kind": "json",
+          "required": true
+        }
+      ],
+      "id": "4298bffca6a50ec6340c65e26919e1c9d76089ae"
+    },
+    {
+      "tags": [
+        "database.es.data.twitter",
+        "database.es.cluster.docker-cluster",
+        "database.es.index.twitter",
+        "env.local",
+        "owner.espo"
+      ],
+      "title": "twitter - docker-cluster - Get Document by ID",
+      "description": "",
+      "executor": "REST",
+      "kind": "es",
+      "req": {
+        "method": "GET",
+        "url": "http://localhost:9200/twitter/_doc/<%= documentId %>",
+        "params": {},
+        "headers": {
+          "Accept": "application/json"
+        }
+      },
+      "inputs": [
+        {
+          "title": "Document ID",
+          "kind": "string",
+          "required": true
+        }
+      ],
+      "id": "c2f19a2b6042a58b34ae44009aed80150438ca84"
+    },
+    {
+      "tags": [
+        "database.es.data.twitter",
+        "database.es.cluster.docker-cluster",
+        "database.es.index.twitter",
+        "env.local",
+        "owner.espo"
+      ],
+      "title": "twitter - docker-cluster - Search Documents",
+      "description": "",
+      "executor": "REST",
+      "kind": "es",
+      "req": {
+        "method": "POST",
+        "url": "http://localhost:9200/twitter/_search",
+        "params": {},
+        "headers": {
+          "Accept": "application/json"
+        },
+        "body": "<%= rawQuery %>"
+      },
+      "inputs": [
+        {
+          "title": "Query",
+          "kind": "json",
+          "required": true
+        }
+      ],
+      "id": "d9bb27d9965d8b4e35f7f19e806bc41cb1d78770"
     }
   ],
   "users": []
