@@ -1,5 +1,6 @@
 const proxyMethodHandler = require('../targets/proxyMethodHandler.js');
 const datasourceUpsertHandler = require('../targets/datasourceUpsertHandler.js');
+const auth = require('../auth/index.js').auth0;
 
 const ERRORS = {
   PARSE_ERROR: -32700, // Parse error: Invalid JSON was received by the server. An error occurred on the server while parsing the JSON text.
@@ -12,8 +13,18 @@ const ERRORS = {
 
 module.exports = async (req, res) => {
   // validate body
-  const { method = null, params = {}, id = 0 } = req.body;
-  let result, error;
+  const { body, headers } = req;
+  const { method = null, params = {}, id = 0 } = body;
+  const authHeader = headers.authorization;
+  let result, error, user;
+
+  try {
+    user = await auth.getUser(authHeader);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({ error: err.message });
+    return;
+  }
 
   switch (method) {
     case 'proxy': {
