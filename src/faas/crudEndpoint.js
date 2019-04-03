@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const auth = require('../auth/index.js').auth0;
+const withAuth = require('../auth/index.js').withAuth;
 
 /**
  * Responds to any HTTP request.
@@ -16,14 +17,9 @@ module.exports = (db, options) => {
     delete: checkDeleteAcl,
   } = acls;
   const { trx: summaryTrx = e => e } = summary;
-  return async (req, res) => {
+  const authOptions = { enrichUserRoles: true };
+  return withAuth(async (req, res) => {
     const { method, query, url, body } = req;
-
-    const enrichUserRoles = true;
-    const user = await auth.validateUser(req, res, enrichUserRoles);
-    if (_.isNil(user)) {
-      return;
-    }
 
     const parts = url.split(/\//g);
     parts.shift();
@@ -34,7 +30,7 @@ module.exports = (db, options) => {
     switch (method) {
       case 'GET': {
         if (_.isNil(subRoute) || subRoute.length === 0) {
-          if (!checkListAcl(user, res)) {
+          if (!checkListAcl(req.user, res)) {
             return;
           }
           const { limit, offset } = query;
@@ -49,7 +45,7 @@ module.exports = (db, options) => {
           });
           payload.content = payload.content.map(summaryTrx);
         } else {
-          if (!checkViewAcl(user, res)) {
+          if (!checkViewAcl(req.user, res)) {
             return;
           }
           payload = await db.get(subRoute);
@@ -58,7 +54,7 @@ module.exports = (db, options) => {
         break;
       }
       case 'POST': {
-        if (!checkUpsertAcl(user, res)) {
+        if (!checkUpsertAcl(req.user, res)) {
           return;
         }
         if (!_.isNil(subRoute)) {
@@ -69,7 +65,7 @@ module.exports = (db, options) => {
         break;
       }
       case 'DELETE': {
-        if (!checkDeleteAcl(user, res)) {
+        if (!checkDeleteAcl(req.user, res)) {
           return;
         }
         payload = await db.delete(subRoute);
@@ -78,5 +74,5 @@ module.exports = (db, options) => {
       }
     }
     res.status(status).send(payload);
-  };
+  }, authOptions);
 };

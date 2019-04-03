@@ -1,7 +1,7 @@
 const _ = require('lodash');
 const proxyMethodHandler = require('../targets/proxyMethodHandler.js');
 const datasourceUpsertHandler = require('../targets/datasourceUpsertHandler.js');
-const auth = require('../auth/index.js').auth0;
+const withAuth = require('../auth/index.js').withAuth;
 
 const ERRORS = {
   PARSE_ERROR: -32700, // Parse error: Invalid JSON was received by the server. An error occurred on the server while parsing the JSON text.
@@ -12,21 +12,16 @@ const ERRORS = {
   // - 32000 to - 32099	Server error	Reserved for implementation - defined server - errors.
 };
 
-module.exports = async (req, res) => {
+module.exports = withAuth(async (req, res) => {
   // validate body
   const { body } = req;
   const { method = null, params = {}, id = 0 } = body;
   let result, error;
 
-  const user = await auth.validateUser(req, res);
-  if (_.isNil(user)) {
-    return;
-  }
-
   switch (method) {
     case 'proxy': {
       [result, error] = await proxyMethodHandler.execute(
-        user,
+        req.user,
         params.targetId,
         params.params,
       );
@@ -52,4 +47,4 @@ module.exports = async (req, res) => {
     error,
     id,
   });
-};
+});

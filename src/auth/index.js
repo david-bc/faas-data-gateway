@@ -118,4 +118,14 @@ class Auth0Verifier {
 
 module.exports = {
   auth0: new Auth0Verifier(),
+  withAuth: (delegate, options = {}) => {
+    const auth = new Auth0Verifier();
+    return async (req, res) => {
+      req.user = await auth.validateUser(req, res, options.enrichUserRoles);
+      if (_.isNil(req.user)) {
+        return;
+      }
+      delegate(req, res);
+    };
+  },
 };
