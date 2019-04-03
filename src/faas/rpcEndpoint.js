@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const proxyMethodHandler = require('../targets/proxyMethodHandler.js');
 const datasourceUpsertHandler = require('../targets/datasourceUpsertHandler.js');
 const auth = require('../auth/index.js').auth0;
@@ -13,28 +14,27 @@ const ERRORS = {
 
 module.exports = async (req, res) => {
   // validate body
-  const { body, headers } = req;
+  const { body } = req;
   const { method = null, params = {}, id = 0 } = body;
-  const authHeader = headers.authorization;
-  let result, error, user;
+  let result, error;
 
-  try {
-    user = await auth.getUser(authHeader);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send({ error: err.message });
+  const user = await auth.validateUser(req, res);
+  if (_.isNil(user)) {
     return;
   }
 
   switch (method) {
     case 'proxy': {
       [result, error] = await proxyMethodHandler.execute(
+        user,
         params.targetId,
         params.params,
       );
       break;
     }
     case 'datasource.upsert': {
+      // TODO: RBAC
+
       [result, error] = await datasourceUpsertHandler.upsert(params);
       break;
     }

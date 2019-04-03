@@ -11,6 +11,9 @@ dotenv.config();
 
 const PORT = process.env.PORT || 9199;
 
+const rolesEntry = require('./faas/rolesEntry.js');
+app.all('/roles**', rolesEntry);
+
 const targetsEntry = require('./faas/targetsEntry.js');
 app.all('/targets**', targetsEntry);
 

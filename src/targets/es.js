@@ -1,14 +1,13 @@
 const _ = require('lodash');
-const uuid = require('uuid');
 const sha1 = require('crypto-js/sha1');
 const axios = require('axios');
 
 const targetsDB = require('../data/index').targets;
 
 const TAGGING = {
-  cluster: id => `database.es.cluster.${id}`,
-  index: id => `database.es.index.${id}`,
-  data: id => `database.es.data.${id}`,
+  cluster: id => `database:es:cluster:${id}`,
+  index: id => `database:es:index:${id}`,
+  data: id => `database:es:data:${id}`,
 };
 
 const BASE_REQUEST = {
